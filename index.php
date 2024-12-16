@@ -13,7 +13,7 @@
         <a href="/login.php"><button class="create-post-btn">Create acount</button></a>
         <div class="icons">
             <span class="bell">🔔</span>
-            <span class="user-avatar">Z</span>
+            <span class="user-avatar">gest</span>
         </div>
     </header>
     <main>
