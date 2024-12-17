@@ -12,6 +12,39 @@ if (!isset( $_SESSION["user_id"])!= 2) {
     <title>Card Layout</title>
     <link rel="stylesheet" href="/style.css">
 </head>
+<style>
+        .user-avatar {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .dropdown a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .user-avatar:hover .dropdown {
+            display: block;
+        }
+    </style>
 <body>
     <header>
         <div class="logo">TECH2TECH</div>
@@ -29,6 +62,9 @@ if (!isset( $_SESSION["user_id"])!= 2) {
                 }
                 echo $username; 
                 ?>
+                <div class="dropdown">
+                    <a href="/login.php">Logout</a>
+                </div>
             </span>
         </div>
     </header>
