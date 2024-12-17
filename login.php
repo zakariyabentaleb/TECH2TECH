@@ -47,13 +47,6 @@
                     <label for="register-password">Mot de passe :</label>
                     <input type="password" id="register-password" name="password" placeholder="Créez un mot de passe" required>
                 </div>
-                <div class="input-group">
-                    <label for="register-role">Rôle :</label>
-                    <select id="register-role" name="role">
-                        <option value="writer" selected>Writer</option>
-                        <option value="admin">Admin</option>
-                    </select>
-                </div>
                 <button type="submit" class="submit-btn">S'inscrire</button>
                 <p>Déjà un compte ? <a href="#" onclick="toggleForm('loginForm')">Se connecter</a></p>
             </form>
