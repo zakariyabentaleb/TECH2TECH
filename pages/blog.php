@@ -1,3 +1,9 @@
+<?php
+if (!isset( $_SESSION["user_id"])!= 2) {
+    header('Location: login.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +19,17 @@
         <a href="/pages/addpost.php"><button class="create-post-btn">Create Post</button></a>
         <div class="icons">
             <span class="bell">🔔</span>
-            <span class="user-avatar">Z</span>
+            <span class="user-avatar">
+                  <?php
+                  session_start();
+                 if (isset($_SESSION["username"])) {
+                    $username = $_SESSION["username"];
+                } else {
+                    $username = "Guest"; 
+                }
+                echo $username; 
+                ?>
+            </span>
         </div>
     </header>
     <main>
