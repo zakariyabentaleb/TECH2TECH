@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login et Register</title>
+    <title>Connexion</title>
     <link rel="stylesheet" href="/style2.css">
 </head>
 <body>
     <div class="container">
-        
-        <div class="form-container active" id="loginForm">
+        <div class="form-container active">
             <div class="form-header">
                 <h2>Bienvenue 👋</h2>
                 <p>Connectez-vous pour accéder à votre espace.</p>
@@ -24,40 +23,41 @@
                     <input type="password" id="login-password" name="password" placeholder="Entrez votre mot de passe" required>
                 </div>
                 <button type="submit" class="submit-btn">Se connecter</button>
-                <p>Pas encore de compte ? <a href="#" onclick="toggleForm('registerForm')">Créer un compte</a></p>
-            </form>
-        </div>
-
-       
-        <div class="form-container" id="registerForm">
-            <div class="form-header">
-                <h2>Créez votre compte 🎉</h2>
-                <p>Inscrivez-vous pour rejoindre la communauté.</p>
-            </div>
-            <form action="register.php" method="POST">
-                <div class="input-group">
-                    <label for="register-username">Nom d'utilisateur :</label>
-                    <input type="text" id="register-username" name="username" placeholder="Entrez un nom d'utilisateur" required>
-                </div>
-                <div class="input-group">
-                    <label for="register-email">Email :</label>
-                    <input type="email" id="register-email" name="email" placeholder="Entrez votre email" required>
-                </div>
-                <div class="input-group">
-                    <label for="register-password">Mot de passe :</label>
-                    <input type="password" id="register-password" name="password" placeholder="Créez un mot de passe" required>
-                </div>
-                <button type="submit" class="submit-btn">S'inscrire</button>
-                <p>Déjà un compte ? <a href="#" onclick="toggleForm('loginForm')">Se connecter</a></p>
+                <p>Pas encore de compte ? <a href="register.php">Créer un compte</a></p>
             </form>
         </div>
     </div>
-
-    <script>
-        function toggleForm(formId) {
-            document.getElementById('loginForm').classList.toggle('active');
-            document.getElementById('registerForm').classList.toggle('active');
-        }
-    </script>
 </body>
 </html>
+<?php
+session_start();
+
+$connection = new mysqli("localhost", "root", "root", "blog");
+if ($connection->connect_error) {
+    die("Erreur de connexion : " . $connection->connect_error);
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email = trim($_POST["email"]);
+    $password = trim($_POST["password"]);
+
+    $stmt = $connection->prepare("SELECT id, username, password_hash FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->bind_result($user_id, $username, $hashed_password);
+
+    if ($stmt->fetch() && password_verify($password, $hashed_password)) {
+       
+        $_SESSION["user_id"] = $user_id;
+        $_SESSION["username"] = $username;
+        $_SESSION["email"] = $email;
+        $_SESSION["authenticated"] = true;
+
+        header("Location: pages/blog.php");
+        exit();
+    } 
+    $stmt->close();
+}
+?>
+
+
