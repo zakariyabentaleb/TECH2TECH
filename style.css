@@ -70,10 +70,8 @@ header {
     margin-left: 10px;
     cursor: pointer;
     font-size: 18px;
-  
 }
 
-/* Main content */
 main {
     display: flex;
     flex-direction: column;

@@ -11,10 +11,7 @@
         <div class="logo">TECH2TECH</div>
         <input type="text" placeholder="Search..." class="search-bar">
         <a href="/login.php"><button class="create-post-btn">Create acount</button></a>
-        <div class="icons">
-            <span class="bell">🔔</span>
-            <span class="user-avatar">gest</span>
-        </div>
+       
     </header>
     <main>
     <aside class="sidebar">
