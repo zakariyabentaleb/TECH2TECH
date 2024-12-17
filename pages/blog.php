@@ -85,6 +85,38 @@
                 🔥🙌😲💭🎉 30 Reactions • 11 Comments • <span>3 min read</span>
             </div>
         </div>
+        <div class="card">
+            <div class="user-info">
+                <span class="user-name">Yan Levin</span>
+                <span class="post-date">Dec 15 (1 day ago)</span>
+            </div>
+            <h2 class="post-title">What Do You Think About Feature-Sliced Design (FSD)?</h2>
+            <div class="tags">
+                <span>#discuss</span>
+                <span>#webdev</span>
+                <span>#javascript</span>
+                <span>#programming</span>
+            </div>
+            <div class="reactions">
+                🔥🙌😲💭🎉 10 Reactions • 3 Comments • <span>1 min read</span>
+            </div>
+        </div>
+        <div class="card">
+            <div class="user-info">
+                <span class="user-name">Yan Levin</span>
+                <span class="post-date">Dec 15 (1 day ago)</span>
+            </div>
+            <h2 class="post-title">What Do You Think About Feature-Sliced Design (FSD)?</h2>
+            <div class="tags">
+                <span>#discuss</span>
+                <span>#webdev</span>
+                <span>#javascript</span>
+                <span>#programming</span>
+            </div>
+            <div class="reactions">
+                🔥🙌😲💭🎉 10 Reactions • 3 Comments • <span>1 min read</span>
+            </div>
+        </div>
         </div>
     </main>
 </body>
