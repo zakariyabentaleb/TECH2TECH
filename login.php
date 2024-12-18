@@ -38,26 +38,34 @@ if ($connection->connect_error) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $email = trim($_POST["email"]);
+    $email = filter_var(trim($_POST["email"]), FILTER_VALIDATE_EMAIL);
     $password = trim($_POST["password"]);
 
-    $stmt = $connection->prepare("SELECT id, username, password_hash FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $stmt->bind_result($user_id, $username, $hashed_password);
+    if ($email && $password) {
+        $stmt = $connection->prepare("SELECT id, username, password_hash, role FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->bind_result($user_id, $username, $hashed_password, $role);
 
-    if ($stmt->fetch() && password_verify($password, $hashed_password)) {
-       
-        $_SESSION["user_id"] = $user_id;
-        $_SESSION["username"] = $username;
-        $_SESSION["email"] = $email;
-        $_SESSION["authenticated"] = true;
+        if ($stmt->fetch() && password_verify($password, $hashed_password)) {
+            $_SESSION["user_id"] = $user_id;
+            $_SESSION["username"] = $username;
+            $_SESSION["email"] = $email;
+            $_SESSION["authenticated"] = true;
 
-        header("Location: pages/blog.php");
-        exit();
-    } 
-    $stmt->close();
+            // Redirection en fonction du rôle de l'utilisateur
+            if ($role === 'admin') {
+                header("Location: admin.php");
+            } else {
+                header("Location: pages/blog.php");
+            }
+            exit();
+        } else {
+            $error = "Identifiants incorrects.";
+        }
+        $stmt->close();
+    } else {
+        $error = "Email ou mot de passe invalide.";
+    }
 }
 ?>
-
-
