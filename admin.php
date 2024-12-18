@@ -34,7 +34,7 @@
                 echo  $username; 
                 ?>
             </h2>
-            <a href="addpost.php" class="add-button">+ Ajouter un Article</a>
+            <a href="/pages/addpost.php" class="add-button">+ Ajouter un Article</a>
         </header>
 
    

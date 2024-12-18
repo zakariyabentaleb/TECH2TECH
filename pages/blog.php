@@ -84,87 +84,70 @@
         </ul>
     </aside>
     <div class="all">
+    <?php
+
+$servername = "localhost";
+$username = "root";
+$password = "root";
+$dbname = "blog";
+
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "
+    SELECT 
+        a.id, 
+        a.title, 
+        a.content, 
+        u.username AS user_name, 
+        GROUP_CONCAT(t.name SEPARATOR ', ') AS tags
+    FROM articles a
+    JOIN users u ON a.user_id = u.id
+    JOIN articletags at ON a.id = at.article_id
+    JOIN tags t ON at.tag_id = t.id
+    GROUP BY a.id, u.username;
+";
+
+$result = $conn->query($sql);
+
+
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        ?>
         <div class="card">
             <div class="user-info">
-                <span class="user-name">Nozibul Islam</span>
-                <span class="post-date">Dec 15 (1 day ago)</span>
+                <span class="user-name"><?php echo $row['user_name']; ?></span>
+                <span class="post-date">Dec 15 (1 day ago)</span> 
             </div>
-            <h2 class="post-title">Real-world projects in software engineering</h2>
+            <h2 class="post-title"><?php echo $row['title']; ?></h2>
+            <p class="post-content"><?php echo $row['content']; ?></p>
             <div class="tags">
-                <span>#softwareengineering</span>
-                <span>#webdev</span>
-                <span>#softwaredevelopment</span>
-                <span>#programming</span>
+                <?php 
+                // Affiche les tags associés à l'article
+                $tags = explode(', ', $row['tags']);
+                foreach ($tags as $tag) {
+                    echo "<span>$tag</span> ";
+                }
+                ?>
             </div>
             <div class="reactions">
-                🔥🙌😲💭🎉 15 Reactions • 2 Comments • <span>2 min read</span>
+                🔥🙌😲💭🎉 15 Reactions • 2 Comments • <span>2 min read</span> 
             </div>
         </div>
-        <div class="card">
-            <div class="user-info">
-                <span class="user-name">Yan Levin</span>
-                <span class="post-date">Dec 15 (1 day ago)</span>
-            </div>
-            <h2 class="post-title">What Do You Think About Feature-Sliced Design (FSD)?</h2>
-            <div class="tags">
-                <span>#discuss</span>
-                <span>#webdev</span>
-                <span>#javascript</span>
-                <span>#programming</span>
-            </div>
-            <div class="reactions">
-                🔥🙌😲💭🎉 10 Reactions • 3 Comments • <span>1 min read</span>
-            </div>
-        </div>
-        <div class="card">
-            <div class="user-info">
-                <span class="user-name">Vsevolod</span>
-                <span class="post-date">Dec 11 (5 days ago)</span>
-            </div>
-            <h2 class="post-title">Like Vim, but Helix</h2>
-            <div class="tags">
-                <span>#development</span>
-                <span>#vscode</span>
-                <span>#vim</span>
-                <span>#productivity</span>
-            </div>
-            <div class="reactions">
-                🔥🙌😲💭🎉 30 Reactions • 11 Comments • <span>3 min read</span>
-            </div>
-        </div>
-        <div class="card">
-            <div class="user-info">
-                <span class="user-name">Yan Levin</span>
-                <span class="post-date">Dec 15 (1 day ago)</span>
-            </div>
-            <h2 class="post-title">What Do You Think About Feature-Sliced Design (FSD)?</h2>
-            <div class="tags">
-                <span>#discuss</span>
-                <span>#webdev</span>
-                <span>#javascript</span>
-                <span>#programming</span>
-            </div>
-            <div class="reactions">
-                🔥🙌😲💭🎉 10 Reactions • 3 Comments • <span>1 min read</span>
-            </div>
-        </div>
-        <div class="card">
-            <div class="user-info">
-                <span class="user-name">Yan Levin</span>
-                <span class="post-date">Dec 15 (1 day ago)</span>
-            </div>
-            <h2 class="post-title">What Do You Think About Feature-Sliced Design (FSD)?</h2>
-            <div class="tags">
-                <span>#discuss</span>
-                <span>#webdev</span>
-                <span>#javascript</span>
-                <span>#programming</span>
-            </div>
-            <div class="reactions">
-                🔥🙌😲💭🎉 10 Reactions • 3 Comments • <span>1 min read</span>
-            </div>
-        </div>
-        </div>
+        <?php
+    }
+} else {
+    echo "0 results";
+}
+
+$conn->close();
+?>
     </main>
 </body>
 </html>
+
