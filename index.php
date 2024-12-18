@@ -82,7 +82,48 @@
                 🔥🙌😲💭🎉 30 Reactions • 11 Comments • <span>3 min read</span>
             </div>
         </div>
+        <div class="card">
+            <div class="user-info">
+                <span class="user-name">Nozibul Islam</span>
+                <span class="post-date">Dec 15 (1 day ago)</span>
+            </div>
+            <h2 class="post-title">Real-world projects in software engineering</h2>
+            <div class="tags">
+                <span>#softwareengineering</span>
+                <span>#webdev</span>
+                <span>#softwaredevelopment</span>
+                <span>#programming</span>
+            </div>
+            <div class="reactions">
+                🔥🙌😲💭🎉 15 Reactions • 2 Comments • <span>2 min read</span>
+            </div>
         </div>
+        </div>
+        <!-- Section des événements -->
+        <aside class="events-sidebar">
+  <h3>Challenges 🥰</h3>
+  <div class="event-card">
+    <h4>Bright Data Web Scraping Challenge</h4>
+    <p>Soumissions jusqu'au 29 Décembre</p>
+  </div>
+  <div class="event-card">
+    <h4>DevCycle Feature Flag Challenge</h4>
+    <p>Soumissions jusqu'au 22 Décembre</p>
+  </div>
+  <div class="event-card">
+    <h4>Open Source Contribution Challenge</h4>
+    <p>Participez avant le 15 Janvier</p>
+  </div>
+  <div class="event-card">
+    <h4>AI & Machine Learning Hackathon</h4>
+    <p>Inscription jusqu'au 5 Février</p>
+  </div>
+  <div class="event-card">
+    <h4>Frontend Web Development Sprint</h4>
+    <p>Relevez le défi avant le 10 Mars</p>
+  </div>
+</aside>
+
     </main>
 </body>
 </html>
