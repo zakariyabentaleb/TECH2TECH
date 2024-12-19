@@ -14,7 +14,16 @@
         </header>
         <div class="post-editor">
             <input type="text" class="post-title" placeholder="New post title here..." />
-            <input type="text" class="tags-input" placeholder="Add up to 4 tags..." />
+            <select name="existing_voiture" class="tags-input" id="existing_voiture">
+      <option value="" disabled selected>Add up to 4 tags...</option>
+      <?php
+      $connection = new mysqli("localhost","root","root","blog");
+      $tags = $connection->query("SELECT id, name FROM tags");
+      while ($tag = $tags->fetch_assoc()) {
+          echo "<option value='{$tag['id']}'>{$tag['name']}</option>";
+      }
+      ?>
+    </select>
             <textarea placeholder="Write your post content here..."></textarea>
         </div>
         <div>
