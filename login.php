@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION["username"] = $username;
             $_SESSION["email"] = $email;
             $_SESSION["authenticated"] = true;
-
+            $_SESSION["role"] = $role;
             // Redirection en fonction du rôle de l'utilisateur
             if ($role === 'admin') {
                 header("Location: admin.php");

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,82 +83,95 @@
         </ul>
     </aside>
     <div class="all">
-    <?php
+    
 
+<?php
+// Connexion à la base de données
 $servername = "localhost";
 $username = "root";
 $password = "root";
 $dbname = "blog";
 
-
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-
+// Vérifiez la connexion
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "
-   SELECT 
-    a.id AS article_id, 
-    a.title AS article_title, 
-    a.content AS article_content, 
-    u.username AS user_name, 
-    GROUP_CONCAT(t.name SEPARATOR ', ') AS tags
-FROM articles a
-JOIN users u 
-    ON a.user_id = u.id
-LEFT JOIN articletags at 
-    ON a.id = at.article_id
-LEFT JOIN tags t 
-    ON at.tag_id = t.id
-GROUP BY a.id, u.username;
-";
+// Vérifiez si un ID d'article est passé en paramètre
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $article_id = intval($_GET['id']);
 
-$result = $conn->query($sql);
+    // Requête pour récupérer les détails de l'article
+    $sql = "
+        SELECT 
+            a.id AS article_id, 
+            a.title AS article_title, 
+            a.content AS article_content, 
+            u.username AS user_name, 
+            GROUP_CONCAT(t.name SEPARATOR ', ') AS tags
+        FROM articles a
+        JOIN users u 
+            ON a.user_id = u.id
+        LEFT JOIN articletags at 
+            ON a.id = at.article_id
+        LEFT JOIN tags t 
+            ON at.tag_id = t.id
+        WHERE a.id = $article_id
+        GROUP BY a.id, u.username;
+    ";
 
+    $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
         ?>
-        <div class="card">
-            <div class="user-info">
-                <span class="user-name"><?php echo $row['user_name']; ?></span>
-                <span class="post-date">Dec 15 (1 day ago)</span> 
-            </div>
-            <h2 class="post-title">
-    <a href="article_details.php?id=<?php echo $row['article_id']; ?>">
-        <?php echo $row['article_title']; ?>
-    </a>
-</h2>
-            <?php echo (substr($row['article_content'], 0, 100)) . '...'; ?>
-            <div class="tags">
-    <?php 
-    
-    if (!empty($row['tags'])) {
-        $tags = explode(', ', $row['tags']);
-        foreach ($tags as $tag) {
-            echo "<span>$tag</span> ";
-        }
-    } else {
-        echo "<span>No tags available</span>";
-    }
-    ?>
-</div>
-            <div class="reactions">
-                🔥🙌😲💭🎉 15 Reactions • 2 Comments • <span>2 min read</span> 
-            </div>
-            
-        </div>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title><?php echo $row['article_title']; ?></title>
+        </head>
+        <body>
+           
+                <h1><?php echo $row['article_title']; ?></h1>
+           
+            <main>
+                <div class="article-details">
+                    <p><strong>Author:</strong> <?php echo $row['user_name']; ?></p>
+                    <p><strong>Content:</strong> <?php echo $row['article_content']; ?></p>
+                    <div class="tags">
+                        <strong>Tags:</strong>
+                        <?php 
+                        if (!empty($row['tags'])) {
+                            $tags = explode(', ', $row['tags']);
+                            foreach ($tags as $tag) {
+                                echo "<span>$tag</span> ";
+                            }
+                        } else {
+                            echo "<span>No tags available</span>";
+                        }
+                        ?>
+                    </div>
+                </div>
+            </main>
+        </body>
+        </html>
         <?php
+    } else {
+        echo "Article not found.";
     }
 } else {
-    echo "0 results";
+    echo "Invalid article ID.";
 }
 
 $conn->close();
 ?>
+
     </main>
 </body>
 </html>
+
 

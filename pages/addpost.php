@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Editor</title>
     <link rel="stylesheet" href="/style1.css">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
 </head>
 <body>
 <div class="editor-container">
@@ -12,7 +13,7 @@
         <h1>TECH2TECH</h1>
         <span>Create Post</span>
     </header>
-    <form method="post" action="">
+    <form method="post" action="" id="postForm">
         <div class="post-editor">
             <input 
                 type="text" 
@@ -39,43 +40,66 @@
                 }
                 ?>
             </select>
-            <textarea 
-                placeholder="Write your post content here..." 
-                name="content" 
-                required
-            ></textarea>
+
+            <!-- Quill Editor Container -->
+            <div id="editor">
+                <!-- Initial content can be set here -->
+            </div>
+
+            <!-- Hidden input for submitting the content -->
+            <input type="hidden" name="content" id="contentInput" required>
+
         </div>
         <div>
-            <button 
-                type="submit" 
-                class="publish-button"
-            >
-                Publish
-            </button>
+            <button type="submit" class="publish-button">Publish</button>
         </div>
     </form>
 </div>
 
-    
+<!-- Include the Quill library -->
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+<!-- Initialize Quill editor -->
+<script>
+  const quill = new Quill('#editor', {
+    theme: 'snow'
+  });
+
+  // Capture the content before form submission
+  const form = document.getElementById('postForm');
+  form.addEventListener('submit', function(e) {
+    // Set the content of the hidden input field before submitting
+    const content = quill.root.innerHTML;
+    document.getElementById('contentInput').value = content;
+  });
+</script>
+
 </body>
 </html>
+
 <?php
 session_start();
-  $connection = new mysqli("localhost","root","root","blog");
-if(isset( $_SESSION["user_id"],$_POST["tags"],$_POST["titre"],$_POST["content"])){
-   $id=$_SESSION["user_id"];
-   $tagid=$_POST["tags"];
-  $titre=$_POST["titre"];
-  $content =$_POST["content"];
-  $stmt= $connection -> prepare("insert into articles (user_id,title,content) values (?,?,?)");
-  $stmt->execute([$id,$titre,$content]);
+$connection = new mysqli("localhost", "root", "root", "blog");
 
-  $article_id = $connection->insert_id;
+if (isset($_SESSION["user_id"], $_POST["tags"], $_POST["titre"], $_POST["content"])) {
+    $id = $_SESSION["user_id"];
+    $tagid = $_POST["tags"];
+    $titre = $_POST["titre"];
+    $content = $_POST["content"];
+    
+    // Insert article into the database
+    $stmt = $connection->prepare("INSERT INTO articles (user_id, title, content) VALUES (?, ?, ?)");
+    $stmt->bind_param("iss", $id, $titre, $content);  // Correct binding for string and string
+    $stmt->execute();
 
+    $article_id = $connection->insert_id;
+
+    // Insert article tags
     $stmt = $connection->prepare("INSERT INTO articletags (article_id, tag_id) VALUES (?, ?)");
     $stmt->bind_param("ii", $article_id, $tagid);
     $stmt->execute();
 
+    // Redirect after successful submission
     header("Location: blog.php");
 }
 ?>

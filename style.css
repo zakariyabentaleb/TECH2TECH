@@ -103,10 +103,12 @@ main {
     font-weight: bold;
 }
 
-.post-title {
+.post-title a {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
+    text-decoration: none;
+    color: black;
 }
 
 .tags {
@@ -130,7 +132,7 @@ main {
 /* Barre des événements */
 .events-sidebar {
     margin-top: -79%;
-    margin-left: 110%;
+    margin-left: 105%;
     width: 40%;
     padding: 20px;
     background-color: #ffffff;

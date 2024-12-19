@@ -1,4 +1,10 @@
-
+<?php
+session_start();
+if ($_SESSION["role"] !== "admin") {
+    header("Location: /pages/blog.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
