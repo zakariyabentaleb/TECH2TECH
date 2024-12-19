@@ -100,17 +100,20 @@ if ($conn->connect_error) {
 }
 
 $sql = "
-    SELECT 
-        a.id, 
-        a.title, 
-        a.content, 
-        u.username AS user_name, 
-        GROUP_CONCAT(t.name SEPARATOR ', ') AS tags
-    FROM articles a
-    JOIN users u ON a.user_id = u.id
-    JOIN articletags at ON a.id = at.article_id
-    JOIN tags t ON at.tag_id = t.id
-    GROUP BY a.id, u.username;
+   SELECT 
+    a.id AS article_id, 
+    a.title AS article_title, 
+    a.content AS article_content, 
+    u.username AS user_name, 
+    GROUP_CONCAT(t.name SEPARATOR ', ') AS tags
+FROM articles a
+JOIN users u 
+    ON a.user_id = u.id
+LEFT JOIN articletags at 
+    ON a.id = at.article_id
+LEFT JOIN tags t 
+    ON at.tag_id = t.id
+GROUP BY a.id, u.username;
 ";
 
 $result = $conn->query($sql);
@@ -124,17 +127,21 @@ if ($result->num_rows > 0) {
                 <span class="user-name"><?php echo $row['user_name']; ?></span>
                 <span class="post-date">Dec 15 (1 day ago)</span> 
             </div>
-            <h2 class="post-title"><?php echo $row['title']; ?></h2>
-            <p class="post-content"><?php echo $row['content']; ?></p>
+            <h2 class="post-title"><?php echo $row['article_title']; ?></h2>
+            <p class="post-content"><?php echo $row['article_content']; ?></p>
             <div class="tags">
-                <?php 
-                // Affiche les tags associés à l'article
-                $tags = explode(', ', $row['tags']);
-                foreach ($tags as $tag) {
-                    echo "<span>$tag</span> ";
-                }
-                ?>
-            </div>
+    <?php 
+    // Vérifiez si la colonne `tags` n'est pas vide ou nulle
+    if (!empty($row['tags'])) {
+        $tags = explode(', ', $row['tags']);
+        foreach ($tags as $tag) {
+            echo "<span>$tag</span> ";
+        }
+    } else {
+        echo "<span>No tags available</span>"; // Message par défaut si aucun tag
+    }
+    ?>
+</div>
             <div class="reactions">
                 🔥🙌😲💭🎉 15 Reactions • 2 Comments • <span>2 min read</span> 
             </div>
