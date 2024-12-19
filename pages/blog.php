@@ -160,6 +160,9 @@ if ($result->num_rows > 0) {
 $conn->close();
 ?>
     </main>
+    <footer>
+        © 2024 TECH2TECH. All rights reserved.
+    </footer>
 </body>
 </html>
 
