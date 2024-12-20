@@ -123,7 +123,7 @@
 
 <body>
     <header>
-        <div class="logo">TECH2TECH</div>
+        <a href="blog.php" class="logo">TECH2TECH</a>
         <input type="text" placeholder="Search..." class="search-bar">
         <a href="/pages/addpost.php"><button class="create-post-btn">Create Post</button></a>
         <div class="icons">
@@ -219,7 +219,7 @@
 
             ?>
             <div class="comments-section">
-                <h2>Top comments (3)</h2>
+                <h2>Comments 💬</h2>
 
                 <div class="comment">
                     <div class="comments-section">
@@ -300,6 +300,7 @@
 
                             if ($stmt->affected_rows > 0) {
                                 echo "<p>Comment posted successfully!</p>";
+                                exit;
                             } else {
                                 echo "<p>Error posting comment.</p>";
                             }
