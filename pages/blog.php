@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,38 +8,39 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <style>
-        .user-avatar {
-            position: relative;
-            cursor: pointer;
-        }
+    .user-avatar {
+        position: relative;
+        cursor: pointer;
+    }
 
-        .dropdown {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 10;
-        }
+    .dropdown {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+    }
 
-        .dropdown a {
-            display: block;
-            padding: 10px 15px;
-            text-decoration: none;
-            color: #333;
-        }
+    .dropdown a {
+        display: block;
+        padding: 10px 15px;
+        text-decoration: none;
+        color: #333;
+    }
 
-        .dropdown a:hover {
-            background-color: #f0f0f0;
-        }
+    .dropdown a:hover {
+        background-color: #f0f0f0;
+    }
 
-        .user-avatar:hover .dropdown {
-            display: block;
-        }
-    </style>
+    .user-avatar:hover .dropdown {
+        display: block;
+    }
+</style>
+
 <body>
     <header>
         <div class="logo">TECH2TECH</div>
@@ -48,14 +49,14 @@
         <div class="icons">
             <span class="bell">🔔</span>
             <span class="user-avatar">
-                  <?php
-                  session_start();
-                 if (isset($_SESSION["username"])) {
+                <?php
+                session_start();
+                if (isset($_SESSION["username"])) {
                     $username = $_SESSION["username"];
                 } else {
-                    $username = "Guest"; 
+                    $username = "Guest";
                 }
-                echo $username; 
+                echo $username;
                 ?>
                 <div class="dropdown">
                     <a href="/login.php">Logout</a>
@@ -64,42 +65,42 @@
         </div>
     </header>
     <main>
-    <aside class="sidebar">
-        <ul>
-            <li>🏠 Home</li>
-            <li>➕ DEV++</li>
-            <li>📚 Reading List</li>
-            <li>🎙️ Podcasts</li>
-            <li>🎥 Videos</li>
-            <li>🏷️ Tags</li>
-            <li>💡 DEV Help</li>
-            <li>🛍️ Forem Shop</li>
-            <li>❤️ Advertise on DEV</li>
-            <li>🏆 DEV Challenges</li>
-            <li>✨ DEV Showcase</li>
-            <li>🖥️ About</li>
-            <li>📞 Contact</li>
-            <li>📖 Guides</li>
-            <li>🤔 Software Comparisons</li>
-        </ul>
-    </aside>
-    <div class="all">
-    <?php
+        <aside class="sidebar">
+            <ul>
+                <li>🏠 Home</li>
+                <li>➕ DEV++</li>
+                <li>📚 Reading List</li>
+                <li>🎙️ Podcasts</li>
+                <li>🎥 Videos</li>
+                <li>🏷️ Tags</li>
+                <li>💡 DEV Help</li>
+                <li>🛍️ Forem Shop</li>
+                <li>❤️ Advertise on DEV</li>
+                <li>🏆 DEV Challenges</li>
+                <li>✨ DEV Showcase</li>
+                <li>🖥️ About</li>
+                <li>📞 Contact</li>
+                <li>📖 Guides</li>
+                <li>🤔 Software Comparisons</li>
+            </ul>
+        </aside>
+        <div class="all">
+            <?php
 
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "blog";
-
-
-$conn = new mysqli($servername, $username, $password, $dbname);
+            $servername = "localhost";
+            $username = "root";
+            $password = "root";
+            $dbname = "blog";
 
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+            $conn = new mysqli($servername, $username, $password, $dbname);
 
-$sql = "
+
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            $sql = "
    SELECT 
     a.id AS article_id, 
     a.title AS article_title, 
@@ -116,53 +117,58 @@ LEFT JOIN tags t
 GROUP BY a.id, u.username;
 ";
 
-$result = $conn->query($sql);
+            $result = $conn->query($sql);
 
 
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        ?>
-        <div class="card">
-            <div class="user-info">
-                <span class="user-name"><?php echo $row['user_name']; ?></span>
-                <span class="post-date">Dec 15 (1 day ago)</span> 
-            </div>
-            <h2 class="post-title">
-    <a href="article_details.php?id=<?php echo $row['article_id']; ?>">
-        <?php echo $row['article_title']; ?>
-    </a>
-</h2>
-            <?php echo (substr($row['article_content'], 0, 100)) . '...'; ?>
-            <div class="tags">
-    <?php 
-    
-    if (!empty($row['tags'])) {
-        $tags = explode(', ', $row['tags']);
-        foreach ($tags as $tag) {
-            echo "<span>$tag</span> ";
-        }
-    } else {
-        echo "<span>No tags available</span>";
-    }
-    ?>
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+            ?>
+                    <div class="card">
+                        <div class="user-info">
+                            <span class="user-name"><?php echo $row['user_name']; ?></span>
+                            <span class="post-date">Dec 15 (1 day ago)</span>
+                        </div>
+                        <h2 class="post-title">
+                            <a href="article_details.php?id=<?php echo $row['article_id']; ?>">
+                                <?php echo $row['article_title']; ?>
+                            </a>
+                        </h2>
+                        <?php echo (substr($row['article_content'], 0, 100)) . '...'; ?>
+                        <div class="tags">
+                            <?php
+
+                            if (!empty($row['tags'])) {
+                                $tags = explode(', ', $row['tags']);
+                                foreach ($tags as $tag) {
+                                    echo "<span>$tag</span> ";
+                                }
+                            } else {
+                                echo "<span>No tags available</span>";
+                            }
+                            ?>
+                        </div>
+                        <div class="reactions">
+    <button class="reaction-btn" data-reaction="🔥">🔥</button>
+    <button class="reaction-btn" data-reaction="🙌">🙌</button>
+    <button class="reaction-btn" data-reaction="😲">😲</button>
+    <button class="reaction-btn" data-reaction="💭">💭</button>
+    <button class="reaction-btn" data-reaction="🎉">🎉</button>
+    <span class="reaction-count">15 Reactions</span> • 2 Comments • <span>2 min read</span>
 </div>
-            <div class="reactions">
-                🔥🙌😲💭🎉 15 Reactions • 2 Comments • <span>2 min read</span> 
-            </div>
-            
-        </div>
-        <?php
-    }
-} else {
-    echo "0 results";
-}
 
-$conn->close();
-?>
+                    </div>
+            <?php
+                }
+            } else {
+                echo "0 results";
+            }
+
+            $conn->close();
+            ?>
     </main>
     <footer>
         © 2024 TECH2TECH. All rights reserved.
     </footer>
 </body>
-</html>
 
+</html>

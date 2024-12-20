@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,6 @@
     <link rel="stylesheet" href="/articledetail.css">
     <style>
         /* Global styles */
-    
 
         .sidebar {
             width: 200px;
@@ -76,6 +76,7 @@
             border-radius: 15px;
             font-size: 0.9em;
         }
+
         .user-avatar {
             position: relative;
             cursor: pointer;
@@ -119,6 +120,7 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <div class="logo">TECH2TECH</div>
@@ -158,22 +160,22 @@
         </ul>
     </aside>
     <section class="section">
-    <main class="main">
-        <?php
-        // Connexion à la base de données
-        $servername = "localhost";
-        $username = "root";
-        $password = "root";
-        $dbname = "blog";
+        <main class="main">
+            <?php
+            // Connexion à la base de données
+            $servername = "localhost";
+            $username = "root";
+            $password = "root";
+            $dbname = "blog";
 
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
+            $conn = new mysqli($servername, $username, $password, $dbname);
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
 
-        if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-            $article_id = intval($_GET['id']);
-            $sql = "
+            if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+                $article_id = intval($_GET['id']);
+                $sql = "
                 SELECT 
                     a.title AS article_title, 
                     a.content AS article_content, 
@@ -187,56 +189,154 @@
                 GROUP BY a.id;
             ";
 
-            $result = $conn->query($sql);
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                ?>
-                <div class="article-details">
-                    <h1><?php echo $row['article_title']; ?></h1>
-                    <p><?php echo nl2br($row['article_content']); ?></p>
-                    <div class="tags">
-                        <strong>Tags:</strong>
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $user_name = $row['user_name'];
+            ?>
+                    <div class="article-details">
+                        <h1><?php echo $row['article_title']; ?></h1>
+                        <p><?php echo nl2br($row['article_content']); ?></p>
+                        <div class="tags">
+                            <strong>Tags:</strong>
+                            <?php
+                            $tags = explode(', ', $row['tags']);
+                            foreach ($tags as $tag) {
+                                echo "<span>$tag</span>";
+                            }
+                            ?>
+                        </div>
+                    </div>
+            <?php
+                } else {
+                    echo "<p>Article not found.</p>";
+                }
+            } else {
+                echo "<p>Invalid article ID.</p>";
+            }
+
+            $conn->close();
+
+            ?>
+            <div class="comments-section">
+                <h2>Top comments (3)</h2>
+
+                <div class="comment">
+                    <div class="comments-section">
+                        <h2>Top comments (3)</h2>
+
                         <?php
-                        $tags = explode(', ', $row['tags']);
-                        foreach ($tags as $tag) {
-                            echo "<span>$tag</span>";
+                        // Connexion à la base de données
+                        $servername = "localhost";
+                        $username = "root";
+                        $password = "root";
+                        $dbname = "blog";
+
+                        $conn = new mysqli($servername, $username, $password, $dbname);
+                        if ($conn->connect_error) {
+                            die("Connection failed: " . $conn->connect_error);
                         }
+
+                        if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+                            $article_id = intval($_GET['id']);
+
+                            $sql = "
+            SELECT 
+                comments.content AS comment_content,
+                users.username AS commenter_username
+            FROM comments
+            INNER JOIN users ON comments.user_id = users.id
+            WHERE comments.article_id = $article_id
+           ;";
+
+                            $result = $conn->query($sql);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<div class='comment'>
+                        <h3 class='comment-header'>" . $row['commenter_username'] . "</h3>
+                        <p>" . nl2br($row['comment_content']) . "</p>
+                      </div>";
+                                }
+                            } else {
+                                echo "<p>No comments yet.</p>";
+                            }
+                        } else {
+                            echo "<p>Invalid article ID.</p>";
+                        }
+
+                        $conn->close();
                         ?>
                     </div>
-                </div>
-                <?php
-            } else {
-                echo "<p>Article not found.</p>";
-            }
-        } else {
-            echo "<p>Invalid article ID.</p>";
-        }
+                    <div class="add-comment">
+                        <form method="POST" action="article_details.php?id=<?php echo $_GET['id']; ?>">
+                            <textarea name="comment_content" placeholder="Add to the discussion..."></textarea>
+                            <button type="submit" name="submit_comment">Post Comment</button>
+                        </form>
+                    </div>
+                    <?php
+                    // Handle comment submission
+                    if (isset($_POST['submit_comment']) && isset($_POST['comment_content'])) {
+                        $comment_content = trim($_POST['comment_content']);
+                        $article_id = intval($_GET['id']);
+                        $user_id = $_SESSION['user_id']; // Assuming you're storing the user_id in the session
 
-        $conn->close();
-        ?>
-    </main>
-    <div class="profile-card">
-        <div class="header"></div>
-        <div class="profile">
-            <h1>YOUCODER</h1>
-            <h2 class="name"><?php echo $row['user_name']; ?></h2>
-            <button class="follow-btn">Follow</button>
+                        if (!empty($comment_content)) {
+                            // Connexion à la base de données
+                            $servername = "localhost";
+                            $username = "root";
+                            $password = "root";
+                            $dbname = "blog";
+                            $conn = new mysqli($servername, $username, $password, $dbname);
+
+                            if ($conn->connect_error) {
+                                die("Connection failed: " . $conn->connect_error);
+                            }
+
+                            // Insert the new comment into the database
+                            $sql = "INSERT INTO comments (article_id, user_id, content) VALUES ($article_id, $user_id, ?)";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("s", $comment_content); // "s" is for string
+                            $stmt->execute();
+
+                            if ($stmt->affected_rows > 0) {
+                                echo "<p>Comment posted successfully!</p>";
+                            } else {
+                                echo "<p>Error posting comment.</p>";
+                            }
+
+                            $stmt->close();
+                            $conn->close();
+                        } else {
+                            echo "<p>Please write a comment before submitting.</p>";
+                        }
+                    }
+                    ?>
+
+                </div>
+        </main>
+        <div class="profile-card">
+            <div class="header"></div>
+            <div class="profile">
+                <h1>YOUCODER</h1>
+                <h2 class="name"><?php echo $user_name; ?></h2>
+                <button class="follow-btn">Follow</button>
+            </div>
+            <div class="details">
+                <p class="bio">
+                    Silicon Forest Developer/hacker. I write about Generative AI, DevOps, and Linux mostly.
+                    Once held the world record for being the youngest person alive.
+                </p>
+                <p class="info"><strong>Location:</strong> SAFI,MAROC</p>
+                <p class="info"><strong>Work:</strong> FULL STACK DEVLOPER </p>
+                <p class="info"><strong>Joined:</strong> Dec 20, 2024</p>
+            </div>
         </div>
-        <div class="details">
-            <p class="bio">
-                Silicon Forest Developer/hacker. I write about Generative AI, DevOps, and Linux mostly.
-                Once held the world record for being the youngest person alive.
-            </p>
-            <p class="info"><strong>Location:</strong> SAFI,MAROC</p>
-            <p class="info"><strong>Work:</strong> FULL STACK DEVLOPER </p>
-            <p class="info"><strong>Joined:</strong> Dec 20, 2024</p>
-        </div>
-      </div>
+
     </section>
+
     <footer>
         © 2024 TECH2TECH. All rights reserved.
     </footer>
 </body>
+
 </html>
-
-
