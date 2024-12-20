@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Article Details</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/articledetail.css">
     <style>
         /* Global styles */
     
@@ -157,6 +157,7 @@
             <li>🤔 Software Comparisons</li>
         </ul>
     </aside>
+    <section class="section">
     <main class="main">
         <?php
         // Connexion à la base de données
@@ -192,7 +193,6 @@
                 ?>
                 <div class="article-details">
                     <h1><?php echo $row['article_title']; ?></h1>
-                    <p><strong>Author:</strong> <?php echo $row['user_name']; ?></p>
                     <p><?php echo nl2br($row['article_content']); ?></p>
                     <div class="tags">
                         <strong>Tags:</strong>
@@ -215,8 +215,28 @@
         $conn->close();
         ?>
     </main>
+    <div class="profile-card">
+        <div class="header"></div>
+        <div class="profile">
+            <h1>YOUCODER</h1>
+            <h2 class="name"><?php echo $row['user_name']; ?></h2>
+            <button class="follow-btn">Follow</button>
+        </div>
+        <div class="details">
+            <p class="bio">
+                Silicon Forest Developer/hacker. I write about Generative AI, DevOps, and Linux mostly.
+                Once held the world record for being the youngest person alive.
+            </p>
+            <p class="info"><strong>Location:</strong> SAFI,MAROC</p>
+            <p class="info"><strong>Work:</strong> FULL STACK DEVLOPER </p>
+            <p class="info"><strong>Joined:</strong> Dec 20, 2024</p>
+        </div>
+      </div>
+    </section>
     <footer>
         © 2024 TECH2TECH. All rights reserved.
     </footer>
 </body>
 </html>
+
+
