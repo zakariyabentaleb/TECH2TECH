@@ -153,7 +153,7 @@ GROUP BY a.id, u.username;
                             <button class="reaction-btn" data-reaction="😲">😲</button>
                             <button class="reaction-btn" data-reaction="💭">💭</button>
                             <button class="reaction-btn" data-reaction="🎉">🎉</button>
-                            <span class="reaction-count">15 Reactions</span> • 2 Comments • <span>2 min read</span>
+                            <span class="reaction-count">0 Reactions</span> • Comments • <span>2 min read</span>
                         </div>
 
                     </div>
@@ -172,3 +172,22 @@ GROUP BY a.id, u.username;
 </body>
 
 </html>
+<script>
+    const reactionButtons = document.querySelectorAll('.reaction-btn');
+
+
+    reactionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+
+            const card = button.closest('.card');
+            const reactionCountSpan = card.querySelector('.reaction-count');
+
+
+            let currentCount = parseInt(reactionCountSpan.textContent.split(' ')[0]);
+            currentCount++;
+
+
+            reactionCountSpan.textContent = `${currentCount} Reactions`;
+        });
+    });
+</script>
