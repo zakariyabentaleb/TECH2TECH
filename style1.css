@@ -1,16 +1,17 @@
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
+
 body {
     display: flex;
     justify-content: center;
     background-color: #f9fafb;
     padding: 20px;
 }
+
 .editor-container {
     display: grid;
     grid-template-columns: 2fr 200px;
@@ -22,6 +23,7 @@ body {
     max-width: 1200px;
     width: 100%;
 }
+
 header {
     grid-column: span 2;
     display: flex;
@@ -29,31 +31,39 @@ header {
     gap: 10px;
     margin-bottom: 20px;
 }
+
 header h1 {
     background-color: #333;
     color: #fff;
     padding: 5px 10px;
     border-radius: 5px;
 }
+
 header span {
     font-weight: bold;
     font-size: 1.2em;
 }
+
 .post-editor {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
-.post-title, .tags-input, textarea {
+
+.post-title,
+.tags-input,
+textarea {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1em;
 }
+
 textarea {
     height: 200px;
     resize: vertical;
 }
+
 .publish-button {
     padding: 10px 15px;
     border: none;
@@ -61,10 +71,8 @@ textarea {
     font-weight: bold;
     cursor: pointer;
 }
+
 .publish-button {
     background-color: #2563eb;
     color: #fff;
 }
-
-
-

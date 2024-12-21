@@ -8,19 +8,19 @@ if (isset($_SESSION["user_id"], $_POST["tags"], $_POST["titre"], $_POST["content
     $titre = $_POST["titre"];
     $content = $_POST["content"];
 
-    // Insert article into the database
+
     $stmt = $connection->prepare("INSERT INTO articles (user_id, title, content) VALUES (?, ?, ?)");
     $stmt->bind_param("iss", $id, $titre, $content);  // Correct binding for string and string
     $stmt->execute();
 
     $article_id = $connection->insert_id;
 
-    // Insert article tags
+  
     $stmt = $connection->prepare("INSERT INTO articletags (article_id, tag_id) VALUES (?, ?)");
     $stmt->bind_param("ii", $article_id, $tagid);
     $stmt->execute();
 
-    // Redirect after successful submission
+   
     header("Location: blog.php");
 }
 ?>
@@ -103,5 +103,3 @@ if (isset($_SESSION["user_id"], $_POST["tags"], $_POST["titre"], $_POST["content
 </body>
 
 </html>
-
-

@@ -148,13 +148,13 @@ GROUP BY a.id, u.username;
                             ?>
                         </div>
                         <div class="reactions">
-    <button class="reaction-btn" data-reaction="🔥">🔥</button>
-    <button class="reaction-btn" data-reaction="🙌">🙌</button>
-    <button class="reaction-btn" data-reaction="😲">😲</button>
-    <button class="reaction-btn" data-reaction="💭">💭</button>
-    <button class="reaction-btn" data-reaction="🎉">🎉</button>
-    <span class="reaction-count">15 Reactions</span> • 2 Comments • <span>2 min read</span>
-</div>
+                            <button class="reaction-btn" data-reaction="🔥">🔥</button>
+                            <button class="reaction-btn" data-reaction="🙌">🙌</button>
+                            <button class="reaction-btn" data-reaction="😲">😲</button>
+                            <button class="reaction-btn" data-reaction="💭">💭</button>
+                            <button class="reaction-btn" data-reaction="🎉">🎉</button>
+                            <span class="reaction-count">15 Reactions</span> • 2 Comments • <span>2 min read</span>
+                        </div>
 
                     </div>
             <?php

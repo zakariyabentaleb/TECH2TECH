@@ -75,25 +75,24 @@ GROUP BY a.id, u.username;
 
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
-            while($row=$result->fetch_assoc()) {
-            $user_name = $row['user_name'];
+            while ($row = $result->fetch_assoc()) {
+                $user_name = $row['user_name'];
         ?>
-            <div class="articles">
-                <div class="article-card">
-                    <h3><?php echo $row['article_title']; ?></h3>
-                    <p>Tags: <?php echo $row['tags']; ?></p>
-                    <p>Author: <?php echo $row['user_name']; ?></p>
+                <div class="articles">
+                    <div class="article-card">
+                        <h3><?php echo $row['article_title']; ?></h3>
+                        <p>Tags: <?php echo $row['tags']; ?></p>
+                        <p>Author: <?php echo $row['user_name']; ?></p>
 
-                    <div class="admin-actions">
-                        <a href="/delete-article.php?id=<?=$row["article_id"]?>" class="delete-btn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?');">🗑 Supprimer </a>
+                        <div class="admin-actions">
+                            <a href="/delete-article.php?id=<?= $row["article_id"] ?>" class="delete-btn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?');">🗑 Supprimer </a>
+                        </div>
                     </div>
                 </div>
-            </div>
         <?php
-        } +
-
-        $conn->close();
-    }
+            }
+            +$conn->close();
+        }
         ?>
     </div>
 

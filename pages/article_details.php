@@ -275,14 +275,13 @@
                         </form>
                     </div>
                     <?php
-                    // Handle comment submission
+
                     if (isset($_POST['submit_comment']) && isset($_POST['comment_content'])) {
                         $comment_content = trim($_POST['comment_content']);
                         $article_id = intval($_GET['id']);
-                        $user_id = $_SESSION['user_id']; // Assuming you're storing the user_id in the session
-
+                        $user_id = $_SESSION['user_id'];
                         if (!empty($comment_content)) {
-                            // Connexion à la base de données
+
                             $servername = "localhost";
                             $username = "root";
                             $password = "root";
@@ -293,10 +292,10 @@
                                 die("Connection failed: " . $conn->connect_error);
                             }
 
-                            // Insert the new comment into the database
+
                             $sql = "INSERT INTO comments (article_id, user_id, content) VALUES ($article_id, $user_id, ?)";
                             $stmt = $conn->prepare($sql);
-                            $stmt->bind_param("s", $comment_content); // "s" is for string
+                            $stmt->bind_param("s", $comment_content);
                             $stmt->execute();
 
                             if ($stmt->affected_rows > 0) {
@@ -325,7 +324,7 @@
             </div>
             <div class="details">
                 <p class="bio">
-                    Silicon Forest Developer/hacker. I write about Generative AI, DevOps, and Linux mostly.
+                    Full Stack Developer. I write about Generative AI, DevOps, and Dev mostly.
                     Once held the world record for being the youngest person alive.
                 </p>
                 <p class="info"><strong>Location:</strong> SAFI,MAROC</p>

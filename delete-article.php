@@ -1,8 +1,8 @@
 <?php
-if (isset ($_GET['id'])){
+if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $connection = new mysqli("localhost","root","root","blog");
-    $stmt= $connection -> query("DELETE FROM articles WHERE id=$id");
+    $connection = new mysqli("localhost", "root", "root", "blog");
+    $stmt = $connection->query("DELETE FROM articles WHERE id=$id");
     if ($result === TRUE) {
         echo "Record deleted successfully";
     } else {
@@ -10,4 +10,3 @@ if (isset ($_GET['id'])){
     }
     header("Location: admin.php");
 }
-?>

@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -64,7 +63,8 @@ label {
     margin-bottom: 5px;
 }
 
-input, select {
+input,
+select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -73,7 +73,8 @@ input, select {
     transition: all 0.3s;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
     border-color: #0e68a4;
     box-shadow: 0 0 5px rgba(14, 104, 164, 0.5);
     outline: none;

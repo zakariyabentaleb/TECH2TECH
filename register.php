@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
     <link rel="stylesheet" href="/style2.css">
 </head>
+
 <body>
     <div class="container">
         <div class="form-container active">
@@ -26,12 +28,13 @@
                     <label for="register-password">Mot de passe :</label>
                     <input type="password" id="register-password" name="password" placeholder="Créez un mot de passe" required>
                 </div>
-                <button type="submit" class="submit-btn" name="sincrire" >S'inscrire</button>
+                <button type="submit" class="submit-btn" name="sincrire">S'inscrire</button>
                 <p>Déjà un compte ? <a href="login.php">Se connecter</a></p>
             </form>
         </div>
     </div>
 </body>
+
 </html>
 <?php
 session_start();
@@ -55,19 +58,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["sincrire"])) {
     if ($result->num_rows > 0) {
         echo "Cet email est déjà utilisé.";
     } else {
-        
+
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
-       
+
         $insert_stmt = $connection->prepare("INSERT INTO users (username, email,  password_hash ) VALUES (?, ?, ?)");
         $insert_stmt->bind_param("sss", $username, $email, $hashed_password);
         if ($insert_stmt->execute()) {
-           
+
             $_SESSION["username"] = $username;
             $_SESSION["email"] = $email;
             $_SESSION["authenticated"] = true;
 
-           
+
             header("Location: index.php");
             exit();
         } else {
@@ -78,5 +81,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["sincrire"])) {
     $stmt->close();
 }
 ?>
-
-
